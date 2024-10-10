@@ -32,8 +32,8 @@ import java.util.Random;
 public final class StringValueOfBench extends MicroBench {
 
 	private static final int MAX_ITERATIONS_PER_LOOP = option("maxIterations", 10000000);
+	private static int ARRAY_SIZE = option("arraySize", 1024);
 
-	private static final int arraySize = 1024;
 	private static char[] chars;
 
 	private static int value = 0;
@@ -42,8 +42,8 @@ public final class StringValueOfBench extends MicroBench {
 		Random rand = new Random();
 		int length;
 
-		chars = new char[arraySize];
-		for (int i = 0; i < arraySize; i++) {
+		chars = new char[ARRAY_SIZE];
+		for (int i = 0; i < ARRAY_SIZE; i++) {
 			chars[i] = StringTestData.POSSIBLE_CHARS[rand.nextInt(StringTestData.POSSIBLE_CHARS.length)];
 		}
 	}
@@ -54,7 +54,7 @@ public final class StringValueOfBench extends MicroBench {
 
 	protected long doBatch(long numIterations) throws InterruptedException {
 		for (long loop = 0; loop < numIterations; loop++) {
-			String x = String.valueOf(chars, 0, ((int)loop) % arraySize);
+			String x = String.valueOf(chars, 0, ((int)loop) % ARRAY_SIZE + 1);
 			value += x.length();
 		}
 		return numIterations;
